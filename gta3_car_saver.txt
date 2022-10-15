@@ -1,0 +1,5 @@
+{$CLEO .cs}
+0000:
+wait 5000 ms
+00BC: show_text_highpriority 'HELLO' time 8000 flag 1
+0A93: terminate_this_custom_script
