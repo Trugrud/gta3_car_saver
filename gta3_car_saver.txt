@@ -1,5 +1,22 @@
 {$CLEO .cs}
 0000:
-wait 5000 ms
-00BC: show_text_highpriority 'HELLO' time 8000 flag 1
+if 
+    0256:   player $PLAYER_CHAR defined
+then
+    wait 5000 ms
+    00BC: show_text_highpriority 'HELLO' time 8000 flag 1
+    
+    while true
+        wait 0
+        if
+            00E0:   player $PLAYER_CHAR in_any_car
+        then
+            00BC: show_text_highpriority 'DRIVING' time 5000 flag 1
+        end
+    end    
+else
+    wait 0
+    0A93: terminate_this_custom_script
+end
+
 0A93: terminate_this_custom_script
