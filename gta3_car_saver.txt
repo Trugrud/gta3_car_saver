@@ -59,7 +59,10 @@ then
                 then
                     0054: store_player _PLAYER_CHAR position_to 4@ 5@ 6@
                     0009: 5@ += 5.0
-                    0441: 9@ = car 2@ model                    
+                    0441: 9@ = car 2@ model
+                    0247: request_model 9@
+                    wait 0
+                    038B: load_requested_models                    
                     0ACE: show_formatted_text_box "Car spawned"
                     00A6: destroy_car 2@
                     wait 0
@@ -68,6 +71,7 @@ then
                     0229: set_car 2@ color_to 7@ 8@
                     wait 1000 ms
                     03E6: remove_text_box
+                    01C3: mark_car_as_no_longer_needed 2@ 
                 end                    
             end                          
         end
