@@ -15,7 +15,6 @@ if and
 then
     1@ = False
     wait 1000 ms
-    00BC: show_text_highpriority 'INIT' time 2000 flag 1
     
     wait 0
     while true
@@ -27,7 +26,6 @@ then
             if
                 1@ == False
             then 
-                00BC: show_text_highpriority 'IN_CAR' time 2000 flag 1
                 1@ = True
             end
             
@@ -50,7 +48,6 @@ then
                 if 
                     1@ == True
                 then
-                    00BC: show_text_highpriority 'NIN_CAR' time 2000 flag 1
                     1@ = False
                 end
                 
