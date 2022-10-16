@@ -1,8 +1,16 @@
 {$CLEO .cs}
+
+const                                  
+_PLAYER_CHAR = $PLAYER_CHAR //$PLAYER_CHAR for III, $303 for VC
+_PLAYER_CAR = $PLAYER_CAR   //$PLAYER_CAR for III, 15@ for VC
+end
+
 0000:
 
+2@ = 0
+
 if and
-    0256: player $PLAYER_CHAR defined
+    0256: player _PLAYER_CHAR defined
     8118: not actor $PLAYER_ACTOR dead
 then
     1@ = False
@@ -13,7 +21,7 @@ then
     while true
         wait 0
         if and 
-            00E0: player $PLAYER_CHAR in_any_car 
+            00E0: player _PLAYER_CHAR in_any_car 
             8118: not actor $PLAYER_ACTOR dead
         then
             if
@@ -22,9 +30,21 @@ then
                 00BC: show_text_highpriority 'IN_CAR' time 2000 flag 1
                 1@ = True
             end
+            
+            wait 0
+            
+            if
+                0AB0: is_key_pressed 219
+            then
+                03C1: 2@ = player _PLAYER_CHAR car_no_save
+                03F3: get_car 2@ color 7@ 8@
+                0ACE: show_formatted_text_box "Car saved"
+                wait 1000 ms
+                03E6: remove_text_box
+            end
         else
             if and 
-                80E0: not player $PLAYER_CHAR in_any_car
+                80E0: not player _PLAYER_CHAR in_any_car
                 8118: not actor $PLAYER_ACTOR dead
             then
                 if 
@@ -33,7 +53,26 @@ then
                     00BC: show_text_highpriority 'NIN_CAR' time 2000 flag 1
                     1@ = False
                 end
-            end
+                
+                wait 0
+                
+                if and
+                    0AB0: is_key_pressed 219
+                    2@ <> 0
+                then
+                    0054: store_player _PLAYER_CHAR position_to 4@ 5@ 6@
+                    0009: 5@ += 5.0
+                    0441: 9@ = car 2@ model                    
+                    0ACE: show_formatted_text_box "Car spawned"
+                    00A6: destroy_car 2@
+                    wait 0
+                    00A5: 2@ = create_car 9@ at 4@ 5@ 6@
+                    wait 0
+                    0229: set_car 2@ color_to 7@ 8@
+                    wait 1000 ms
+                    03E6: remove_text_box
+                end                    
+            end                          
         end
     end
 end
