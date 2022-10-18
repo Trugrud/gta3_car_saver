@@ -35,6 +35,7 @@ then
                 0AB0: is_key_pressed 219
             then
                 03C1: 2@ = player _PLAYER_CHAR car_no_save
+                0441: 9@ = car 2@ model
                 03F3: get_car 2@ color 7@ 8@
                 0ACE: show_formatted_text_box "Car saved"
                 wait 1000 ms
@@ -57,21 +58,32 @@ then
                     0AB0: is_key_pressed 219
                     2@ <> 0
                 then
+                    01B4: set_player _PLAYER_CHAR can_move 0 
                     0054: store_player _PLAYER_CHAR position_to 4@ 5@ 6@
                     0009: 5@ += 5.0
-                    0441: 9@ = car 2@ model
                     0247: request_model 9@
                     wait 0
-                    038B: load_requested_models                    
-                    0ACE: show_formatted_text_box "Car spawned"
-                    00A6: destroy_car 2@
-                    wait 0
-                    00A5: 2@ = create_car 9@ at 4@ 5@ 6@
-                    wait 0
-                    0229: set_car 2@ color_to 7@ 8@
-                    wait 1000 ms
-                    03E6: remove_text_box
-                    01C3: mark_car_as_no_longer_needed 2@ 
+                    038B: load_requested_models
+                    wait 1
+                    if
+                        0248:   model 9@ available
+                    then                         
+                        0ACE: show_formatted_text_box "Car spawned" 
+                        00A6: destroy_car 2@            
+                        wait 0
+                        00A5: 2@ = create_car 9@ at 4@ 5@ 6@
+                        wait 0
+                        0229: set_car 2@ color_to 7@ 8@
+                        01C3: mark_car_as_no_longer_needed 2@
+                        wait 0
+                        01B4: set_player _PLAYER_CHAR can_move 1
+                        wait 1000 ms
+                        03E6: remove_text_box
+                    else
+                        0ACE: show_formatted_text_box "Model unvelible"
+                        wait 1000 ms
+                        03E6: remove_text_box
+                    end    
                 end                    
             end                          
         end
